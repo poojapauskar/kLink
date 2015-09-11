@@ -37,7 +37,11 @@
          ?>  
       </tbody>  
    </table>  
-<body>  
+<body>
+<?php if($isAdmin ==1){ ?>
+<button type="button" class="btn btn-success" id="" 
+            onclick="location.href='<?php echo site_url('/register/');?>'">Add Users</button>
+<?php }?> 
 </body> 
 
 

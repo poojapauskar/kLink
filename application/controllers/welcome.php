@@ -23,8 +23,9 @@ class Welcome extends CI_Controller {
 			$this->load->view("registerPage3");
 	}
 
-	public function getTickets()
+	public function getTickets($data1)
 	{
+		print_r($data1);
 		$this->load->model("hello_model","model");
 		$data['details']= $this->model->getTickets();
 
@@ -33,15 +34,7 @@ class Welcome extends CI_Controller {
 		$this->load->view("ticketPage3",$data);
 	}
 	
-	public function getList()
-	{
-		$this->load->model("hello_model","model");
-		$data['details']= $this->model->getTickets();
-
-		
-		//print_r($data);
-		$this->load->view("ticketPage4",$data);
-	}
+	
 
 	public function addUsers()
 	{
@@ -148,15 +141,19 @@ class Welcome extends CI_Controller {
 			$this->session->set_userdata($newdata);
 
 			$this->load->model("hello_model","model");
-			$data1['isAdmin']= $this->model->isAdmin($details);
+			$data['isAdmin']= $this->model->isAdmin($details);
 			//print_r($data1['isAdmin']);
 			
-			if($data1['isAdmin']==1)
-			{
-				redirect('/getList');
-			}else{
-				redirect('/getTickets');
-			}
+			
+			//	redirect('/getTickets',$data1);
+			
+			$this->load->model("hello_model","model");
+			$data['details']= $this->model->getTickets();
+
+		
+			//print_r($data);
+			$this->load->view("ticketPage3",$data);
+			
 		}
 		else{
 			print_r("Not Registered");
