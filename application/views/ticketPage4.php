@@ -15,8 +15,7 @@
             <td>Query</td> 
             <td>Resolution</td> 
             <td>Status</td>
-            <td>Manage</td>  
-            <td>Refer</td> 
+            
          </tr>  
          <?php  
          foreach ($details->result() as $row)  
@@ -28,16 +27,16 @@
             <td><?php echo $row->query;?></td>
             <td><?php echo $row->resolution;?></td>
             <td><?php echo $row->status;?></td>
-            <td><button type="button" class="btn btn-success" id="<?php $row->ticket_id;?>" 
-            onclick="location.href='<?php echo site_url('/manage/?id=');?><?php echo $row->ticket_id;?>'">Manage</button></td>
-            <td><button type="button" class="btn btn-success" id="<?php $row->ticket_id;?>" 
-            onclick="location.href='<?php echo site_url('/refer/?id=');?><?php echo $row->ticket_id;?>'">Refer</button></td>   
+              
             </tr>  
          <?php }  
          ?>  
       </tbody>  
    </table>  
-<body>  
+<body> 
+
+<button type="button" class="btn btn-success" id="" 
+            onclick="location.href='<?php echo site_url('/register/');?>'">Add Users</button> 
 </body> 
 
 

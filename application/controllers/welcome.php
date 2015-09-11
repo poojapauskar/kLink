@@ -32,6 +32,16 @@ class Welcome extends CI_Controller {
 		//print_r($data);
 		$this->load->view("ticketPage3",$data);
 	}
+	
+	public function getList()
+	{
+		$this->load->model("hello_model","model");
+		$data['details']= $this->model->getTickets();
+
+		
+		//print_r($data);
+		$this->load->view("ticketPage4",$data);
+	}
 
 	public function addUsers()
 	{
@@ -39,10 +49,14 @@ class Welcome extends CI_Controller {
 		
 		$details=array(
 			'username'=>$this->input->post('username'),
-			'password'=>$this->input->post('password')
+			'password'=>$this->input->post('password'),
+			'country_code'=>$this->input->post('country_code'),
+			'phone'=>$this->input->post('phone'),
+			'email'=>$this->input->post('email')
 
 		);
 
+		$details['phone'] =$details['country_code'].''.$details['phone'];
 
 		$this->load->model("hello_model","model");
 		$data['details']= $this->model->addUsers($details);
@@ -99,6 +113,8 @@ class Welcome extends CI_Controller {
 			$this->load->model("hello_model","model");
 		    	$data['details']= $this->model->refer($details);
 		    	
+		    	//print_r($data);
+		    	$this->load->view("refer3",$data);
 		    	
 			
 	}
@@ -121,27 +137,26 @@ class Welcome extends CI_Controller {
 		if($data['flag']==1){
 
 
-		//	$this->load->model("hello_model","model");
-		  //  $data['flag1']= $this->model->isAdmin($details);
-
-		    //if($data['flag1'] == 1){
+		
 				$newdata = array(
-                   'logged_in' => 1,
-                   'logged_in_time' => time(),
-                   'isadmin' => 1
-            	);
-          /*  }else{
-            	$newdata = array(
                    'logged_in' => 1,
                    'logged_in_time' => time()
             	);
-            } */
+          
 
 			//print_r($newdata);
 			$this->session->set_userdata($newdata);
 
-			print_r("Login Successful");
-			//print_r("User logged in");
+			$this->load->model("hello_model","model");
+			$data1['isAdmin']= $this->model->isAdmin($details);
+			//print_r($data1['isAdmin']);
+			
+			if($data1['isAdmin']==1)
+			{
+				redirect('/getList');
+			}else{
+				redirect('/getTickets');
+			}
 		}
 		else{
 			print_r("Not Registered");

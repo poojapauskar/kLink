@@ -3,11 +3,21 @@
 class Hello_model extends CI_Model{
 
 		public function addUsers($details){
-
-			$query="INSERT INTO users1 (username,password) VALUES ('$details[username]','$details[password]')";
+			
+			$timestamp = strtotime(date("Y-m-d h:i:sa"));
+			$user_id="kL".$timestamp;	
+			
+			$query="INSERT INTO users1 (username,password,phone,email,user_id) VALUES ('$details[username]','$details[password]','$details[phone]','$details[email]','$user_id')";
 			$query=$this->db->query($query);
 				
 			return;
+		}
+		
+		public function isAdmin($details){
+
+			$query = $this->db->get_where('users1',array('username'=>$details['username'],'password'=>$details['password'],'isAdmin'=>1));
+				
+			return $query->num_rows();
 		}
 		
 		public function loginUsers($details){
@@ -39,10 +49,12 @@ class Hello_model extends CI_Model{
 		
 		public function refer($details){
 
-			$query="SELECT * FROM tickets1 WHERE ticket_id=$details[ticket_id]";
+			$query="SELECT phone,email FROM users1 INNER JOIN tickets1 WHERE tickets1.ticket_id=$details[ticket_id] AND users1.username= tickets1.name";
+			//print_r($query);
 			$query=$this->db->query($query);
+			//print_r($query);
 				
-			return $query;	
+			return $query->result();	
 		}
 
 		
@@ -61,13 +73,7 @@ class Hello_model extends CI_Model{
 				
 			return $query;	
 		}
-		/*public function isAdmin($details){
-
-			$query="SELECT isadmin FROM users1 WHERE username =$details['username'] && password =$details['password']";
-			$query=$this->db->query($query);
-				
-			return;
-		}
+		/*
 
 		
  		*/
