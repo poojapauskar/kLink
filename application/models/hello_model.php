@@ -49,7 +49,17 @@ class Hello_model extends CI_Model{
 		
 		public function refer($details){
 
-			$query="SELECT phone,email FROM users1 INNER JOIN tickets1 WHERE tickets1.ticket_id=$details[ticket_id] AND users1.username= tickets1.name";
+			$query="SELECT phone,email,user_id FROM users1 INNER JOIN tickets1 WHERE tickets1.ticket_id=$details[ticket_id] AND users1.username= tickets1.name";
+			//print_r($query);
+			$query=$this->db->query($query);
+			//print_r($query);
+				
+			return $query->result();	
+		}
+		
+		public function mail($details){
+
+			$query="SELECT * FROM users1 WHERE user_id= '$details[user_id]'";
 			//print_r($query);
 			$query=$this->db->query($query);
 			//print_r($query);

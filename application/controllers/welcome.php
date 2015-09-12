@@ -56,7 +56,19 @@ class Welcome extends CI_Controller {
 
 		
 
-		print_r("Registration Successful");
+		$isAdmin = $this->session->userdata('isAdmin');
+			if($isAdmin == 1) {
+				$data['isAdmin'] =1;
+			}else{
+				$data['isAdmin'] = 0;
+			}
+
+		    $this->load->model("hello_model","model");
+			$data['details']= $this->model->getTickets();
+
+		
+			//print_r($data);
+			$this->load->view("ticketPage3",$data);
 	}
 
 	public function login()
@@ -92,9 +104,21 @@ class Welcome extends CI_Controller {
 			);
 
 			$this->load->model("hello_model","model");
-		    	$data['details']= $this->model->manage1($details);
-		    	
-		    	redirect('/getTickets');
+		    $data['details']= $this->model->manage1($details);
+		    
+		    $isAdmin = $this->session->userdata('isAdmin');
+			if($isAdmin == 1) {
+				$data['isAdmin'] =1;
+			}else{
+				$data['isAdmin'] = 0;
+			}
+
+		    $this->load->model("hello_model","model");
+			$data['details']= $this->model->getTickets();
+
+		
+			//print_r($data);
+			$this->load->view("ticketPage3",$data);
 	}
 	
 	public function refer()
@@ -111,7 +135,21 @@ class Welcome extends CI_Controller {
 		    	
 			
 	}
+	
+	
+	public function mail()
+	{
 
+			
+			$details['user_id'] = $_GET['id'];
+			
+			$this->load->model("hello_model","model");
+		    	$data['details']= $this->model->mail($details);
+		    	
+		    	//print_r($data['details']);
+		    	$this->load->view("mail3",$data);		    	
+			
+	}
 
 	
 
@@ -129,19 +167,28 @@ class Welcome extends CI_Controller {
 
 		if($data['flag']==1){
 
+				$this->load->model("hello_model","model");
+				$data['isAdmin']= $this->model->isAdmin($details);
+				
+			if($data['isAdmin'] == 1){
+					$newdata = array(
+                   		'logged_in' => 1,
+                   		'logged_in_time' => time(),
+                   		'isAdmin' => 1
+            			);
+          		}else{
+          			$newdata = array(
+                   		'logged_in' => 1,
+                   		'logged_in_time' => time(),
+                   		'isAdmin' => 0
+            		);
 
-		
-				$newdata = array(
-                   'logged_in' => 1,
-                   'logged_in_time' => time()
-            	);
-          
+          		}
 
 			//print_r($newdata);
 			$this->session->set_userdata($newdata);
 
-			$this->load->model("hello_model","model");
-			$data['isAdmin']= $this->model->isAdmin($details);
+			
 			//print_r($data1['isAdmin']);
 			
 			
@@ -196,7 +243,20 @@ class Welcome extends CI_Controller {
 
 			$this->load->model("hello_model","model");
 			$data['create']= $this->model->createObject($details);
-			print_r("Object Created");
+			
+			$isAdmin = $this->session->userdata('isAdmin');
+			if($isAdmin == 1) {
+				$data['isAdmin'] =1;
+			}else{
+				$data['isAdmin'] = 0;
+			}
+
+		    $this->load->model("hello_model","model");
+			$data['details']= $this->model->getTickets();
+
+		
+			//print_r($data);
+			$this->load->view("ticketPage3",$data);
 
 	
 	}
