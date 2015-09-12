@@ -137,19 +137,7 @@ class Welcome extends CI_Controller {
 	}
 	
 	
-	public function mail()
-	{
-
-			
-			$details['user_id'] = $_GET['id'];
-			
-			$this->load->model("hello_model","model");
-		    	$data['details']= $this->model->mail($details);
-		    	
-		    	//print_r($data['details']);
-		    	$this->load->view("mail3",$data);		    	
-			
-	}
+	
 
 	
 
@@ -259,6 +247,22 @@ class Welcome extends CI_Controller {
 			$this->load->view("ticketPage3",$data);
 
 	
+	}
+	
+	
+	public function logout()
+	{	
+			
+			$this->session->sess_destroy();
+
+			
+
+			//client side
+			setcookie ("logged_in", "", time() - 3600);
+			//print_r($this->session->all_userdata());
+
+			$this->load->view("loginPage3");
+
 	}
 
 }
